@@ -359,7 +359,7 @@ fun GameInfoRow(label: String, value: String) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(text = "$label:", color = Color.White, style = MaterialTheme.typography.bodyLarge)
-        Text(text = value, color = Color.LightGray, style = MaterialTheme.typography.labelSmall)
+        Text(text = value, color = Color.LightGray, style = MaterialTheme.typography.labelSmall, modifier = Modifier.padding(top = 3.dp, start = 3.dp))
     }
 }
 
