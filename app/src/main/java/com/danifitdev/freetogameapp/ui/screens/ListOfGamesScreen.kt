@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -71,7 +72,10 @@ fun ListOfGamesScreen(navController: NavController, viewModel: GamesViewModel = 
         }
     }
     Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState, modifier = Modifier
+            .fillMaxSize()
+            .wrapContentHeight(align = Alignment.Bottom)
+            .padding(bottom = 100.dp)) },
         topBar = {
             Box(
                 modifier = Modifier
@@ -118,7 +122,7 @@ fun ListOfGamesScreen(navController: NavController, viewModel: GamesViewModel = 
         },
         content = { paddingValues ->
             Column(
-                modifier = Modifier.fillMaxSize().padding(0.dp)
+                modifier = Modifier.fillMaxSize()
                     .background(
                         Brush.radialGradient(
                             colors = listOf(Color.Black, Color.LightGray),

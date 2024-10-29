@@ -8,13 +8,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -112,172 +116,162 @@ fun GameDetailScreen(
                 },
             )
         },
-        content = {
+
+    ){ innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .background(
+                    Brush.radialGradient(
+                        colors = listOf(Color.Black, Color.LightGray),
+                        center = Offset(300f, 100f), // Centro del degradado
+                        radius = 3000f
+                    )
+                )
+                .padding(top = 100.dp, start = 16.dp, end = 16.dp, bottom = 100.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { showImageDialog = true } // Abre el DatePicker
+            ) {
+                Image(
+                    painter = rememberImagePainter(game!!.thumbnail),
+                    contentDescription = "${game!!.title} thumbnail",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(250.dp)
+                        .clip(RoundedCornerShape(12.dp)),
+                    contentScale = ContentScale.Crop
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = game!!.short_description!!,
+                fontSize = 16.sp,
+                color = Color.White,
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Justify,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        Brush.radialGradient(
-                            colors = listOf(Color.Black, Color.LightGray),
-                            center = Offset(300f, 100f), // Centro del degradado
-                            radius = 3000f
-                        )
-                    )
-                    .padding(top = 100.dp, start = 16.dp, end = 16.dp)
+                    .fillMaxWidth()
+                    .background(Color(0xFF2D2D3D), RoundedCornerShape(12.dp))
+                    .padding(16.dp)
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { showImageDialog = true } // Abre el DatePicker
-                ) {
-                    Image(
-                        painter = rememberImagePainter(game!!.thumbnail),
-                        contentDescription = "${game!!.title} thumbnail",
+                if(isLoading){
+                    Box(
+                        contentAlignment = Alignment.Center,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(250.dp)
-                            .clip(RoundedCornerShape(12.dp)),
-                        contentScale = ContentScale.Crop
-                    )
-                }
+                            .background(Color.Transparent)
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }else{
+                    if(!isEditing){
+                        GameInfoRow(label = "Género", value = game!!.genre!!)
+                        GameInfoRow(label = "Plataforma", value = game!!.platform!!)
+                        GameInfoRow(label = "Publicador", value = game!!.publisher!!)
+                        GameInfoRow(label = "Desarrollador", value = game!!.developer!!)
+                        GameInfoRow(
+                            label = "Fecha de Lanzamiento",
+                            value = formatDate(game!!.release_date!!)
+                        )
+                    }else{
 
-                Spacer(modifier = Modifier.height(16.dp))
+                        CustomTextField(
+                            editedGenre,
+                            {editedGenre = it},
+                            "Género"
+                        )
+                        CustomTextField(
+                            value = editedPlatform,
+                            onValueChange = { editedPlatform = it },
+                            label = "Plataforma"
+                        )
+                        CustomTextField(
+                            value = editedPublisher,
+                            onValueChange = { editedPublisher = it },
+                            label = "Publicador"
+                        )
 
-                Text(
-                    text = game!!.short_description!!,
-                    fontSize = 16.sp,
-                    color = Color.White,
-                    style = MaterialTheme.typography.bodyLarge,
-                    textAlign = TextAlign.Justify,
-                    modifier = Modifier.fillMaxWidth()
-                )
+                        CustomTextField(
+                            value = editedDeveloper,
+                            onValueChange = { editedDeveloper = it },
+                            label = "Desarrollador"
+                        )
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color(0xFF2D2D3D), RoundedCornerShape(12.dp))
-                        .padding(16.dp)
-                ) {
-                    if(isLoading){
                         Box(
-                            contentAlignment = Alignment.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .background(Color.Transparent)
+                                .clickable { showDatePicker = true } // Abre el DatePicker
                         ) {
-                            CircularProgressIndicator()
+                            CustomTextFieldDate(editedRelaseDate, {editedRelaseDate = it}, "Fecha de lanzamiento")
                         }
-                    }else{
-                        if(!isEditing){
-                            GameInfoRow(label = "Género", value = game!!.genre!!)
-                            GameInfoRow(label = "Plataforma", value = game!!.platform!!)
-                            GameInfoRow(label = "Publicador", value = game!!.publisher!!)
-                            GameInfoRow(label = "Desarrollador", value = game!!.developer!!)
-                            GameInfoRow(
-                                label = "Fecha de Lanzamiento",
-                                value = formatDate(game!!.release_date!!)
-                            )
-                        }else{
 
-                            CustomTextField(
-                                editedGenre,
-                                {editedGenre = it},
-                                "Género"
-                            )
-                            CustomTextField(
-                                value = editedPlatform,
-                                onValueChange = { editedPlatform = it },
-                                label = "Plataforma"
-                            )
-                            CustomTextField(
-                                value = editedPublisher,
-                                onValueChange = { editedPublisher = it },
-                                label = "Publicador"
-                            )
-
-                            CustomTextField(
-                                value = editedDeveloper,
-                                onValueChange = { editedDeveloper = it },
-                                label = "Desarrollador"
-                            )
-
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable { showDatePicker = true } // Abre el DatePicker
-                            ) {
-                                TextField(
-                                    enabled = false,
-                                    value = editedRelaseDate,
-                                    onValueChange = { editedRelaseDate = it },
-                                    label = { Text("Fecha de lanzamiento", color = Color.Black) },
-                                    modifier = Modifier
-                                        .background(Color.White, shape = RoundedCornerShape(12.dp))
-                                        .fillMaxWidth(),
-                                    shape = RoundedCornerShape(12.dp),
-                                    textStyle = TextStyle(color = Color.DarkGray)
-                                )
-                                Spacer(modifier = Modifier.height(5.dp))
-                            }
-
-                        }
                     }
                 }
+            }
 
-                Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Box(modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 4.dp)) {
-                        if(isEditing){
-                            BlueButton(onClick = {
-                                viewModel.updateGame(
-                                    game!!.copy(
-                                        genre = editedGenre,
-                                        platform = editedPlatform,
-                                        publisher = editedPublisher,
-                                        developer = editedDeveloper,
-                                        release_date = editedRelaseDate
-                                    )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Box(modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 4.dp)) {
+                    if(isEditing){
+                        BlueButton(onClick = {
+                            viewModel.updateGame(
+                                game!!.copy(
+                                    genre = editedGenre,
+                                    platform = editedPlatform,
+                                    publisher = editedPublisher,
+                                    developer = editedDeveloper,
+                                    release_date = editedRelaseDate
                                 )
-                                isEditing = false
-                            }, Modifier, "Guardar")
-                        }else{
-                            BlueButton(onClick = {
-                                // Inicia el modo de edición
-                                editedPlatform = game!!.platform!!
-                                editedGenre = game!!.genre!!
-                                editedDeveloper = game!!.developer!!
-                                editedPublisher = game!!.publisher!!
-                                editedRelaseDate = game!!.release_date!!
-                                isEditing = true
-                            }, Modifier, "Editar")
-                        }
-
+                            )
+                            isEditing = false
+                        }, Modifier, "Guardar")
+                    }else{
+                        BlueButton(onClick = {
+                            // Inicia el modo de edición
+                            editedPlatform = game!!.platform!!
+                            editedGenre = game!!.genre!!
+                            editedDeveloper = game!!.developer!!
+                            editedPublisher = game!!.publisher!!
+                            editedRelaseDate = game!!.release_date!!
+                            isEditing = true
+                        }, Modifier, "Editar")
                     }
-                    Box(modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 4.dp)) {
-                        if(isEditing){
-                            RedButton(onClick = {
-                                isEditing = false
-                            }, Modifier, "Cancelar")
-                        }else{
-                            RedButton(onClick = {
-                                showDialogDelete.value = true // Mostrar diálogo de confirmación
-                            }, Modifier, text = "Eliminar")
-                        }
+
+                }
+                Box(modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 4.dp)) {
+                    if(isEditing){
+                        RedButton(onClick = {
+                            isEditing = false
+                        }, Modifier, "Cancelar")
+                    }else{
+                        RedButton(onClick = {
+                            showDialogDelete.value = true // Mostrar diálogo de confirmación
+                        }, Modifier, text = "Eliminar")
                     }
                 }
             }
         }
-    )
+    }
     if (showDialogDelete.value) {
         AlertDialog(
             onDismissRequest = { showDialogDelete.value = false },
@@ -376,15 +370,66 @@ fun CustomTextField(
     label: String,
     modifier: Modifier = Modifier
 ) {
-    TextField(
+
+    OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text(label, color = Color.Black) },
+        label = {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.labelSmall,
+                color = Color.White
+            )
+        },
         modifier = modifier
-            .background(Color.White, shape = RoundedCornerShape(12.dp))
             .fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        textStyle = TextStyle(color = Color.DarkGray)
+        shape = RoundedCornerShape(16.dp),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = Color.White,
+            unfocusedBorderColor = Color.White,
+            backgroundColor = Color.Transparent,
+            focusedLabelColor = Color.White,
+            unfocusedLabelColor = Color.White,
+            textColor = Color.White
+        ),// Cambia el redondeado aquí
+        singleLine = true,
+    )
+    Spacer(modifier = Modifier.height(5.dp))
+}
+
+@Composable
+fun CustomTextFieldDate(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String,
+    modifier: Modifier = Modifier
+) {
+
+    OutlinedTextField(
+        enabled = false,
+        value = value,
+        onValueChange = onValueChange,
+        label = {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.labelSmall,
+                color = Color.White
+            )
+        },
+        modifier = modifier
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = Color.White,
+            unfocusedBorderColor = Color.White,
+            backgroundColor = Color.Transparent,
+            focusedLabelColor = Color.White,
+            unfocusedLabelColor = Color.White,
+            textColor = Color.White,
+            disabledTextColor = Color.White,
+            disabledBorderColor = Color.White
+        ),// Cambia el redondeado aquí
+        singleLine = true,
     )
     Spacer(modifier = Modifier.height(5.dp))
 }
