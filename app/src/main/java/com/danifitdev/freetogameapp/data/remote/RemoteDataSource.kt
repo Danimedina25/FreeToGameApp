@@ -3,7 +3,6 @@ package com.danifitdev.freetogameapp.data.remote
 
 import com.danifitdev.freetogameapp.data.model.GameEntity
 import com.danifitdev.freetogameapp.utils.NetworkResult
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(private val apiService: GamesApiService) {

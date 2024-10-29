@@ -1,7 +1,5 @@
 package com.danifitdev.freetogameapp.ui.screens
 
-import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -52,7 +50,6 @@ import coil.compose.rememberAsyncImagePainter
 import com.danifitdev.freetogameapp.R
 import com.danifitdev.freetogameapp.domain.model.GameModel
 import com.danifitdev.freetogameapp.ui.viewmodel.GamesViewModel
-import com.google.gson.Gson
 
 @Composable
 fun ListOfGamesScreen(navController: NavController, viewModel: GamesViewModel = hiltViewModel(),) {

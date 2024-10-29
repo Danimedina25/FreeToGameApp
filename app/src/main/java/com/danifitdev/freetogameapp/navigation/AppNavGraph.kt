@@ -1,6 +1,5 @@
 package com.danifitdev.freetogameapp.navigation
 
-import android.net.Uri
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -10,12 +9,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.danifitdev.freetogameapp.domain.model.GameModel
 import com.danifitdev.freetogameapp.ui.screens.GameDetailScreen
 import com.danifitdev.freetogameapp.ui.screens.ListOfGamesScreen
 import com.danifitdev.freetogameapp.ui.screens.SplashScreen
-import com.google.gson.Gson
-
 
 sealed class Screen(val route: String) {
     object SplashScreen : Screen("splash_screen")

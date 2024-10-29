@@ -1,7 +1,6 @@
 package com.danifitdev.freetogameapp.data.local
 
 import com.danifitdev.freetogameapp.data.model.GameEntity
-import com.danifitdev.freetogameapp.domain.model.GameModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

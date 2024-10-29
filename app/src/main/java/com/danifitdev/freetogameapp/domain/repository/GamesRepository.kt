@@ -1,7 +1,6 @@
 package com.danifitdev.freetogameapp.domain.repository
 
 import com.danifitdev.freetogameapp.domain.model.GameModel
-import com.danifitdev.freetogameapp.utils.NetworkResult
 import kotlinx.coroutines.flow.Flow
 
 
