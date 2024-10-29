@@ -1,6 +1,6 @@
 # FreeToGameApp
 
-FreeToGame App es una aplicación de Android desarrollada en Kotlin utilizando la arquitectura MVVM y Jetpack Compose para la interfaz de usuario. La aplicación permite explorar una lista de videojuegos gratuitos obtenidos de una API externa, con opciones de búsqueda, filtrado y administración de una base de datos local. Se han implementado principios de diseño limpio, incluyendo la separación de capas (Repository, Use Cases, Data Sources), uso de Dagger Hilt para la inyección de dependencias, Retrofit para llamadas de red, Room para almacenamiento local, y corutinas y flows para la gestión asíncrona de datos.
+FreeToGame App es una aplicación de Android desarrollada en Kotlin utilizando el patrón de diseño MVVM y Clean Architecture, con Jetpack Compose para la interfaz de usuario. La aplicación permite explorar una lista de videojuegos gratuitos obtenidos de una API externa, con opciones de búsqueda, filtrado y administración de una base de datos local. Se han implementado principios de diseño limpio, incluyendo la separación de capas (Repository, Use Cases, Data Sources), uso de Dagger Hilt para la inyección de dependencias, Retrofit para llamadas de red, Room para almacenamiento local, y corutinas y flows para la gestión asíncrona de datos.
 
 # Tecnologías utilizadas
 	Kotlin
