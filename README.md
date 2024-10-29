@@ -42,7 +42,7 @@ Muestra la información detallada del videojuego seleccionado. Desde aquí, el u
 
 ![Detalle del Videojuego](./assets/detalle_videojuego.png)
 
-# 5. Zoom de l aimagen del videojuego
+# 5. Zoom de la imagen del videojuego
 Al hacer click en la imagen del videojuego desde la pantalla de detalle, se puede abrir en un modal y hacer zoom.
 
 ![Zoom de la imagen](./assets/zoom_imagen.png)
