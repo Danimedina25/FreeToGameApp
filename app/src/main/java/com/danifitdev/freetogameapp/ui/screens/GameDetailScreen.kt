@@ -98,6 +98,9 @@ fun GameDetailScreen(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
             TopAppBar(
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.White // O el color específico que desees
+                ),
                 title = {
                     Text(
                         text = game!!.title!!, color = Color.Black, textAlign = TextAlign.Start,
